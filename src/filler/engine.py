@@ -157,7 +157,10 @@ class FormFillerEngine:
 
             except Exception as exc:
                 screenshot_file = self.screenshots_dir / f"fail_{record.mssv}.png"
-                await page.screenshot(path=str(screenshot_file), full_page=True)
+                try:
+                    await page.screenshot(path=str(screenshot_file), timeout=5000)
+                except Exception:
+                    pass
                 logger.error(
                     "submitting_record_failed",
                     mssv=record.mssv,
